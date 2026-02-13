@@ -38,16 +38,6 @@ if ! command -v git &> /dev/null; then
     exit 1
 fi
 
-# Parse command line arguments
-INSTALL_ARGS=""
-for arg in "$@"; do
-    case $arg in
-        --yes|-y)
-            INSTALL_ARGS="--yes"
-            ;;
-    esac
-done
-
 # Clone or update the repository
 if [ -d "${REPO_DIR}" ]; then
     info "Updating existing repository..."
@@ -65,7 +55,7 @@ else
     success "Repository cloned"
 fi
 
-# Run the main script
+# Prepare to run main script
 echo ""
 info "Starting installation..."
 echo ""
@@ -73,9 +63,12 @@ echo ""
 cd "${REPO_DIR}"
 chmod +x init.sh
 
-# Use bash with interactive mode enabled to ensure read commands work
-if [ -n "$INSTALL_ARGS" ]; then
-    bash -i ./init.sh $INSTALL_ARGS
+# Check if we're running via pipe (stdin is not a terminal)
+if [ ! -t 0 ]; then
+    # Running via pipe - use exec to replace current shell process
+    # This allows the new process to have full terminal control
+    exec bash ./init.sh "$@"
 else
-    bash -i ./init.sh
+    # Normal execution
+    bash ./init.sh "$@"
 fi
