@@ -43,35 +43,40 @@ A Debian 12+ server environment setup script with interactive menu for installin
 
 ### Quick Start (One-liner)
 
-Run directly on your server without downloading files:
-
-**curl - Interactive mode:**
+Run directly on your fresh server:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/zsjie/server-init-script/main/init.sh | bash
+curl -fsSL https://raw.githubusercontent.com/zsjie/server-init-script/main/install.sh | bash
 ```
 
-**curl - Non-interactive mode (install all):**
+Non-interactive mode (install all components):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/zsjie/server-init-script/main/init.sh | bash -s -- --yes
+curl -fsSL https://raw.githubusercontent.com/zsjie/server-init-script/main/install.sh | bash -s -- --yes
 ```
 
-**wget - Interactive mode:**
+Or with wget:
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/zsjie/server-init-script/main/init.sh | bash
+wget -qO- https://raw.githubusercontent.com/zsjie/server-init-script/main/install.sh | bash
 ```
 
-**wget - Non-interactive mode:**
+### Prerequisites
+
+On a fresh Debian server, you may need to install curl and git first:
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/zsjie/server-init-script/main/init.sh | bash -s -- --yes
+apt update && apt install -y curl git
 ```
 
 ### Local Execution
 
-Clone or download the repository first:
+Clone the repository first:
+
+```bash
+git clone https://github.com/zsjie/server-init-script.git
+cd server-init-script
+```
 
 #### Interactive Mode
 
@@ -101,6 +106,7 @@ This will automatically install all components without prompts.
 
 ```
 server-init-script/
+├── install.sh       # Bootstrap script for remote installation
 ├── init.sh          # Main script entry point
 ├── install/         # Installation modules
 │   ├── system.sh    # System detection and base configuration
