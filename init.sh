@@ -116,7 +116,7 @@ source "${INSTALL_DIR}/nodejs.sh" 2>/dev/null || { error "Failed to load nodejs.
 ##############################################################################
 
 show_menu() {
-    clear
+    # Don't clear screen as it interferes with pipe execution
     separator
     echo "        Debian 12+ Server Environment Initialization"
     separator

@@ -73,8 +73,9 @@ echo ""
 cd "${REPO_DIR}"
 chmod +x init.sh
 
+# Use bash with interactive mode enabled to ensure read commands work
 if [ -n "$INSTALL_ARGS" ]; then
-    ./init.sh $INSTALL_ARGS
+    bash -i ./init.sh $INSTALL_ARGS
 else
-    ./init.sh
+    bash -i ./init.sh
 fi
