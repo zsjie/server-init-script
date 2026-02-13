@@ -45,21 +45,27 @@ A Debian 12+ server environment setup script with interactive menu for installin
 
 Run directly on your server without downloading files:
 
-```bash
-# Interactive mode
-curl -fsSL https://raw.githubusercontent.com/zsjie/server-init-script/main/init.sh | bash
+**curl - Interactive mode:**
 
-# Non-interactive mode (install all components automatically)
+```bash
+curl -fsSL https://raw.githubusercontent.com/zsjie/server-init-script/main/init.sh | bash
+```
+
+**curl - Non-interactive mode (install all):**
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/zsjie/server-init-script/main/init.sh | bash -s -- --yes
 ```
 
-Or with wget:
+**wget - Interactive mode:**
 
 ```bash
-# Interactive mode
 wget -qO- https://raw.githubusercontent.com/zsjie/server-init-script/main/init.sh | bash
+```
 
-# Non-interactive mode
+**wget - Non-interactive mode:**
+
+```bash
 wget -qO- https://raw.githubusercontent.com/zsjie/server-init-script/main/init.sh | bash -s -- --yes
 ```
 
