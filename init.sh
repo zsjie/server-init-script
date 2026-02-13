@@ -47,6 +47,33 @@ separator() {
     echo ""
 }
 
+# Check if we can prompt the user (has TTY access)
+is_promptable() {
+    [ -r /dev/tty ] && [ -w /dev/tty ]
+}
+
+# Read user input from TTY (works even when piped)
+prompt_input() {
+    local prompt_text="$1"
+    local default_value="$2"
+    local result=""
+
+    if [ "$AUTO_YES" = true ] && [ -n "$default_value" ]; then
+        echo "$default_value"
+        return 0
+    fi
+
+    if is_promptable; then
+        echo -n "$prompt_text" > /dev/tty
+        read -r result < /dev/tty || true
+        echo "$result"
+    else
+        # No TTY available, use stdin
+        read -r result || true
+        echo "$result"
+    fi
+}
+
 ##############################################################################
 # System Detection
 ##############################################################################
@@ -116,7 +143,6 @@ source "${INSTALL_DIR}/nodejs.sh" 2>/dev/null || { error "Failed to load nodejs.
 ##############################################################################
 
 show_menu() {
-    # Don't clear screen as it interferes with pipe execution
     separator
     echo "        Debian 12+ Server Environment Initialization"
     separator
@@ -130,7 +156,7 @@ show_menu() {
     echo ""
     echo "  q) Quit"
     separator
-    echo -n "  Select option [1-6/q]: "
+    echo -n "  Select option [1-6/q]: " > /dev/tty
 }
 
 install_component() {
@@ -237,11 +263,11 @@ if [ "$AUTO_YES" = true ]; then
 else
     while true; do
         show_menu
-        read -r choice
+        choice=$(prompt_input "" "")
         install_component "$choice"
         if [ "$choice" != "6" ]; then
             echo ""
-            read -p "Press Enter to continue..."
+            prompt_input "Press Enter to continue..." ""
         fi
     done
 fi
